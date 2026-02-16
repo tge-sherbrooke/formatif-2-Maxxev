@@ -1,71 +1,42 @@
-#!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.9"
+# dependencies = ["adafruit-blinka", "rpi.gpio"]
+# ///
 """
-Effet chenillard sur 3 LEDs via GPIO.
-
-À COMPLÉTER (BONUS) : Créez un effet chenillard
-
-Câblage :
-- LED rouge : GPIO 17 → résistance 330Ω → GND
-- LED verte : GPIO 27 → résistance 330Ω → GND
-- LED jaune : GPIO 22 → résistance 330Ω → GND
+Chenillard RGB - Controle de 3 LEDs
+Cours 243-413-SH, Semaine 2
 """
 
+import board
+import digitalio
 import time
-import RPi.GPIO as GPIO
 
-# Configuration des broches GPIO
-LED_ROUGE = 17
-LED_VERTE = 27
-LED_JAUNE = 22
+# Configuration des LEDs
+led_rouge = digitalio.DigitalInOut(board.D17) # GPIO 17 = Pin 11
+led_rouge.direction = digitalio.Direction.OUTPUT
 
-LEDS = [LED_ROUGE, LED_VERTE, LED_JAUNE]
+led_verte = digitalio.DigitalInOut(board.D27) # GPIO 27 = Pin 13
+led_verte.direction = digitalio.Direction.OUTPUT
 
-def chenillard(delai=0.3):
-    """
-    Effet chenillard : les LEDs s'allument successivement.
+led_jaune = digitalio.DigitalInOut(board.D22) # GPIO 22 = Pin 15
+led_jaune.direction = digitalio.Direction.OUTPUT
 
-    Args:
-        delai (float): Délai entre chaque LED en secondes
-    """
-    # TODO : Implémenter l'effet chenillard
-    # Allumer LED 1, attendre, éteindre LED 1
-    # Allumer LED 2, attendre, éteindre LED 2
-    # Allumer LED 3, attendre, éteindre LED 3
-    # Répéter
-    pass
+leds = [led_rouge, led_verte, led_jaune]
 
-def chenillard_allume(delai=0.3):
-    """
-    Effet chenillard où les LEDs restent allumées.
+print("Chenillard RGB demarre (Ctrl+C pour arreter)")
 
-    Args:
-        delai (float): Délai entre chaque LED en secondes
-    """
-    # TODO : Implémenter l'effet chenillard "qui reste allumé"
-    pass
+try:
+    while True:
+        for led in leds:
+            led.value = True
+            time.sleep(0.3)
+            led.value = False
 
-def main():
-    """Fonction principale."""
-    # Configuration
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(LEDS, GPIO.OUT)
+except KeyboardInterrupt:
+    print("\nArret")
 
-    # Éteindre toutes les LEDs au départ
-    for led in LEDS:
-        GPIO.output(led, GPIO.LOW)
-
-    print("Effet chenillator sur 3 LEDs")
-    print("Appuyez sur Ctrl+C pour quitter")
-
-    try:
-        while True:
-            # TODO : Appeler votre fonction chenillard
-            pass
-
-    except KeyboardInterrupt:
-        print("\nAu revoir!")
-    finally:
-        GPIO.cleanup()
-
-if __name__ == "__main__":
-    main()
+finally:
+    for led in leds:
+        led.value = False
+        led.deinit()
+        print("GPIO libere")
