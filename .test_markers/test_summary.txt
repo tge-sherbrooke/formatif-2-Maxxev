@@ -1,0 +1,12 @@
+Test Summary for Formatif F2
+Generated: 2026-02-16T16:10:26.986532
+Tests Run: 6
+
+Markers:
+  - dht22_script_verified: DHT22 script verified: 2026-02-16T16:10:26.962408
+  - git_branches_verified: Branches trouvées: feature/led, feature/dht22
+  - git_commits_verified: Commits conventionnés: 0/4
+  - git_verified: Verified: 2026-02-16T16:09:12.881498
+Git setup verified, 4 commits
+  - hardware_detected: DHT22: Vérification manuelle requise (GPIO 4)
+  - led_scripts_verified: LED scripts verified: 2026-02-16T16:10:26.959361
